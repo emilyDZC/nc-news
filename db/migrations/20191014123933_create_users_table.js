@@ -1,0 +1,13 @@
+
+exports.up = function(connection) {
+  console.log('creating usersTable...');
+  return connection.schema.createTable('users', (usersTable) => {
+    usersTable.string('username').primary();
+    usersTable.string('avatar_url');
+    usersTable.string('name')
+  })
+};
+
+exports.down = function(connection) {
+  return connection.schema.dropTable('usersTable');
+};
