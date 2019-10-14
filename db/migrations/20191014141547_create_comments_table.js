@@ -13,4 +13,5 @@ exports.up = function(connection) {
 
 exports.down = function(connection) {
   console.log('dropping comments table')
+  return connection.schema.dropTable('dropTable');
 };
