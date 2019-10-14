@@ -15,12 +15,17 @@ exports.seed = function(connection) {
     .then(topicData => {
       console.log(topicData)
     })
-    // .then(() => {
-    //   return connection
-    //     .insert(articleData)
-    //     .into("articles")
-    //     .returning("*");
-    // });
+    .then(() => {
+      return connection
+        .insert(articleData)
+        .into("articles")
+        .returning("*")
+        .then(articleData => {
+          let dateKey = articleData.created_at;
+          formatDates(dateKey);
+          console.log(dateKey)
+        })
+    });
 };
 
 /*

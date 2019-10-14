@@ -2,7 +2,7 @@
 exports.up = function(connection) {
   console.log('creating topics table...');
   return connection.schema.createTable('topics', (topicsTable) => {
-    topicsTable.unique('slug').primary();
+    topicsTable.string('slug').unique().primary();
     topicsTable.string('description');
   })
 };
