@@ -1,4 +1,5 @@
 
+
 exports.up = function(connection) {
   console.log('creating comments table...')
   return connection.schema.createTable('comments', (commentsTable) => {
@@ -12,6 +13,6 @@ exports.up = function(connection) {
 };
 
 exports.down = function(connection) {
-  console.log('dropping comments table')
+  console.log('dropping comments table');
   return connection.schema.dropTable('dropTable');
 };

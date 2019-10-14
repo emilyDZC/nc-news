@@ -8,8 +8,16 @@ const {
 const { formatDates, formatComments, makeRefObj } = require('../utils/utils');
 
 exports.seed = function(connection) {
-  const topicsInsertions = knex('topics').insert(topicData);
-  const usersInsertions = knex('users').insert(userData);
+  return connection.insert(topicData).into('topics').returning('*').then((topicData) => {
+    console.log(topicData);
+  })
+
+}
+
+/*
+{
+  const topicsInsertions = connection('topics').insert(topicData);
+  const usersInsertions = connection('users').insert(userData);
 
   return Promise.all([topicsInsertions, usersInsertions])
     .then(() => {
@@ -21,7 +29,7 @@ exports.seed = function(connection) {
 
       Your comment insertions will depend on information from the seeded articles, so make sure to return the data after it's been seeded.
       */
-    })
+  /*  })
     .then(articleRows => {
       /* 
 
@@ -31,9 +39,10 @@ exports.seed = function(connection) {
       
       You will need to write and test the provided makeRefObj and formatComments utility functions to be able insert your comment data.
       */
-
+/*
       const articleRef = makeRefObj(articleRows);
       const formattedComments = formatComments(commentData, articleRef);
       return knex('comments').insert(formattedComments);
     });
 };
+*/

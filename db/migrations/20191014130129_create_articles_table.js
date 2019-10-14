@@ -8,7 +8,7 @@ exports.up = function(connection) {
     articlesTable.integer('votes').defaultTo(0);
     articlesTable.string('topic').references('topics.slug');
     articlesTable.string('author').references('users.username');
-    articlesTable.timestamp('created_at').defaultTo(connect.fn.now());
+    articlesTable.timestamp('created_at').defaultTo(connection.fn.now());
   })
 };
 
