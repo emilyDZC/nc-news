@@ -14,21 +14,32 @@ exports.seed = function(connection) {
     .returning("*")
     .then(topicData => {
       console.log(topicData)
-    })
-    .then(() => {
+    }).then(() => {
       return connection
+      .insert(userData)
+      .into("users")
+      .returning("*")
+      .then((userData) => {
+        console.log(userData)
+      })
+      
+    })
+    
+     
+   
+};
+
+/*
+return connection
         .insert(articleData)
         .into("articles")
         .returning("*")
         .then(articleData => {
           let dateKey = articleData.created_at;
-          formatDates(dateKey);
           console.log(dateKey)
+          formatDates(dateKey);
+          
         })
-    });
-};
-
-/*
 {
   const topicsInsertions = connection('topics').insert(topicData);
   const usersInsertions = connection('users').insert(userData);
