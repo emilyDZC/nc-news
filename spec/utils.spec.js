@@ -17,6 +17,13 @@ describe('formatDates', () => {
   });
 });    
 
-describe('makeRefObj', () => {});
+describe('makeRefObj', () => {
+  it('returns a reference object consisting of title and article_id', () => {
+    expect(makeRefObj([{article_id: 1, title: 'A'}])).to.eql({A: 1});
+  });
+  it('returns a reference object when passed an array of multiple objects', () => {
+    expect(makeRefObj([{article_id: 1, title: 'A'}, {article_id: 2, title: 'B'}])).to.eql({A:1, B:2});
+  });
+});
 
 describe('formatComments', () => {});

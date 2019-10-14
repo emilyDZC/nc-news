@@ -3,16 +3,25 @@ const {
   articleData,
   commentData,
   userData
-} = require('../data/index.js');
+} = require("../data/index.js");
 
-const { formatDates, formatComments, makeRefObj } = require('../utils/utils');
+const { formatDates, formatComments, makeRefObj } = require("../utils/utils");
 
 exports.seed = function(connection) {
-  return connection.insert(topicData).into('topics').returning('*').then((topicData) => {
-    console.log(topicData);
-  })
-
-}
+  return connection
+    .insert(topicData)
+    .into("topics")
+    .returning("*")
+    .then(topicData => {
+      console.log(topicData)
+    })
+    // .then(() => {
+    //   return connection
+    //     .insert(articleData)
+    //     .into("articles")
+    //     .returning("*");
+    // });
+};
 
 /*
 {
@@ -29,7 +38,7 @@ exports.seed = function(connection) {
 
       Your comment insertions will depend on information from the seeded articles, so make sure to return the data after it's been seeded.
       */
-  /*  })
+/*  })
     .then(articleRows => {
       /* 
 
