@@ -58,5 +58,15 @@ describe("endpoints", () => {
         });
       });
     });
+    describe('/users', () => {
+      describe('/:username', () => {
+        it('Status 200: should successfully connect to endpoint', () => {
+          return request(app)
+            .get("/api/users/lurker")
+            .expect(200);
+        });
+      });
+    });
   });
+
 });

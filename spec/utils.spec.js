@@ -21,8 +21,12 @@ describe('makeRefObj', () => {
   it('returns a reference object consisting of title and article_id', () => {
     expect(makeRefObj([{article_id: 1, title: 'A'}])).to.eql({A: 1});
   });
-  it('returns a reference object when passed an array of multiple objects', () => {
+  it('returns a reference object of title and article_id when passed an array of multiple objects', () => {
     expect(makeRefObj([{article_id: 1, title: 'A'}, {article_id: 2, title: 'B'}])).to.eql({A:1, B:2});
+  });
+  it('works when the object contains more key value pairs', () => {
+    expect(makeRefObj([{article_id: 1, title: 'A', votes: 100}, {article_id: 2, title: 'B', votes: 2}])).to.eql({A:1, B:2});
+    
   });
 });
 
