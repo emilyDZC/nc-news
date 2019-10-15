@@ -3,7 +3,7 @@ const {
   formatDates,
   makeRefObj,
   formatComments,
-} = require('../db/utils/utils');
+} = require('../db/utils/utils');   
 
 describe('formatDates', () => {
   it('returns the date in the correct format when passed unix timestamp', () => {
