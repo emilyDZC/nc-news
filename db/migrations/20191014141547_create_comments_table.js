@@ -8,11 +8,11 @@ exports.up = function(connection) {
     commentsTable.integer('article_id').references('articles.article_id');
     commentsTable.integer('votes').defaultsTo(0);
     commentsTable.timestamp('created_at').defaultTo(connection.fn.now());
-    commentsTable.string('body');
+    commentsTable.text('body');
   })
 };
 
 exports.down = function(connection) {
   console.log('dropping comments table');
-  return connection.schema.dropTable('dropTable');
+  return connection.schema.dropTable('comments');
 };

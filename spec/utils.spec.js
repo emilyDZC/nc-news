@@ -27,5 +27,5 @@ describe('makeRefObj', () => {
 });
 
 describe('formatComments', () => {
-  
+ 
 });

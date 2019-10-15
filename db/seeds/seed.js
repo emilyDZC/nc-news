@@ -5,41 +5,80 @@ const {
   userData
 } = require("../data/index.js");
 
-const { formatDates, formatComments, makeRefObj } = require("../utils/utils");
+const {
+  formatDates,
+  formatComments,
+  makeRefObj,
+  renameKeys
+} = require("../utils/utils");
 
 exports.seed = function(connection) {
-  return connection
-    .insert(topicData)
-    .into("topics")
-    .returning("*")
-    .then(topicData => {
-      console.log(topicData)
-    }).then(() => {
+  return connection.migrate
+    .rollback()
+    .then(() => connection.migrate.latest())
+    .then(() => {
       return connection
-      .insert(userData)
-      .into("users")
-      .returning("*")
-      .then((userData) => {
-        console.log(userData)
-      })
-      
-    })
-    
-     
-   
-};
-
-/*
-return connection
-        .insert(articleData)
-        .into("articles")
+        .insert(topicData)
+        .into("topics")
         .returning("*")
-        .then(articleData => {
-          let dateKey = articleData.created_at;
-          console.log(dateKey)
-          formatDates(dateKey);
-          
+        .then(topicData => {
+          // console.log(topicData)
         })
+        .then(() => {
+          return connection
+            .insert(userData)
+            .into("users")
+            .returning("*")
+            .then(userData => {
+              // console.log(userData)
+            });
+        })
+        .then(() => {
+          const formattedArticles = articleData.map(obj => {
+            obj.created_at = new Date(obj.created_at);
+            return obj;
+          });
+          // console.log(formattedArticles);
+          return connection
+            .insert(formattedArticles)
+            .into("articles")
+            .returning("*");
+        })
+        .then(articleRows => {
+          const refObj = makeRefObj(articleRows);
+
+          const formattedComments = renameKeys(
+            commentData,
+            "created_by",
+            "author"
+          );
+          const formattedComments2 = renameKeys(
+            formattedComments,
+            "belongs_to",
+            "article_id"
+          );
+          const formattedComments3 = formattedComments2.map(obj => {
+            obj.created_at = new Date(obj.created_at);
+            return obj;
+          });
+          const finalFormattedComments = formattedComments3.map(obj => {
+            let keyToFind = obj.article_id;
+            obj.article_id = refObj[keyToFind];
+            return obj;
+          });
+
+          return connection
+            .insert(finalFormattedComments)
+            .into("comments")
+            .returning("*");
+        })
+        .then(insertedComments => {
+          console.log(insertedComments);
+        });
+    });
+};
+/*
+
 {
   const topicsInsertions = connection('topics').insert(topicData);
   const usersInsertions = connection('users').insert(userData);

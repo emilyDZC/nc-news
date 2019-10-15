@@ -9,5 +9,5 @@ exports.up = function(connection) {
 
 exports.down = function(connection) {
   console.log('dropping topics table')
-  return connection.schema.dropTable('topicsTable');
+  return connection.schema.dropTable('topics');
 };

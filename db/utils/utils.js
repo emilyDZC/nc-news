@@ -14,4 +14,16 @@ exports.makeRefObj = list => {
   return refObj;
 };
 
-exports.formatComments = (comments, articleRef) => {};
+exports.renameKeys = (arr, keyToChange, newKey) => {
+  let newArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    arr[i][newKey] = arr[i][keyToChange];
+    delete arr[i][keyToChange];
+    newArr.push(arr[i]);
+  }
+  return newArr;
+};
+
+exports.formatComments = (comments, articleRef) => {
+
+};
