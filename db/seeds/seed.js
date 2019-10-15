@@ -73,7 +73,7 @@ exports.seed = function(connection) {
             .returning("*");
         })
         .then(insertedComments => {
-          console.log(insertedComments);
+          // console.log(insertedComments);
         });
     });
 };

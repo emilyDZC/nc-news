@@ -1,7 +1,8 @@
 // set node environment to 'test'
 process.env.NODE_ENV = 'test';
 
-const {chai} = require("expect");
+const {expect} = require("chai");
+
 const request = require("supertest");
 const { app } = require("../app");
 const { connection } = require("../db/connection");
@@ -18,6 +19,24 @@ describe('endpoints', () => {
          .get('/api/topics')
          .expect(200);
        });
+       it('Status 200: should return an array of objects', () => {
+         return request(app)
+         .get('/api/topics')
+         .expect(200)
+         .then(({ body }) => {
+              expect(body.topics).to.be.an("array");
+              expect(body.topics[0]).to.be.an("object");
+            });
+       });
+       it('Status 200: should return an array of objects with the correct keys', () => {
+         return request(app)
+         .get('/api/topics')
+         .expect(200)
+         .then(({ body }) => {
+              expect(body.topics[0]).to.contain.keys("slug", "description");
+            });
+       });
+
      });
       
     });
