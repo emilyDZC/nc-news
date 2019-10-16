@@ -65,6 +65,26 @@ describe("endpoints", () => {
             .get("/api/users/lurker")
             .expect(200);
         });
+        xit('Status 404: not found, when given a nonexistent username', () => {
+          return request(app)
+            .get("/api/users/happy")
+            .expect(404)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Route not found");
+            })
+        });
+        it("Status 405: should only allow GET method", () => {
+        const notAllowed = ["post", "put", "patch", "delete"];
+        const promises = notAllowed.map(method => {
+          return request(app)
+            [method]("/api/users/lurker")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Method not allowed!");
+            });
+        });
+        return Promise.all(promises);
+      });
       });
     });
   });

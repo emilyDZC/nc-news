@@ -6,6 +6,6 @@ const { getUser } = require('../controllers/users')
 
 usersRouter.route('/:username')
 .get(getUser)
-.all(notAllowed);
+.all(notAllowed);    
 
 module.exports = usersRouter;

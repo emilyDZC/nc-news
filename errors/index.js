@@ -1,9 +1,7 @@
 
-
-// exports.handle500s = (err, req, res, next) {
-
-// }
-
+exports.handle500s = (err, req, res, next) => {
+res.status(500).send({msg: 'server error'});
+};
 
 
 

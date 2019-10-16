@@ -1,7 +1,7 @@
 
 
 exports.up = function(connection) {
-  console.log('creating comments table...')
+  // console.log('creating comments table...')
   return connection.schema.createTable('comments', (commentsTable) => {
     commentsTable.increments('comment_id').primary();
     commentsTable.string('author').references('users.username');
@@ -13,6 +13,6 @@ exports.up = function(connection) {
 };
 
 exports.down = function(connection) {
-  console.log('dropping comments table');
+  // console.log('dropping comments table');
   return connection.schema.dropTable('comments');
 };

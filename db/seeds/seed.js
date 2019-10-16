@@ -51,7 +51,7 @@ exports.seed = function(connection) {
             commentData,
             "created_by",
             "author"
-          );  
+          );
           const formattedComments2 = renameKeys(
             formattedComments,
             "belongs_to",

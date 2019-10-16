@@ -3,6 +3,7 @@ const {
   formatDates,
   makeRefObj,
   formatComments,
+  renameKeys
 } = require('../db/utils/utils');   
 
 describe('formatDates', () => {
@@ -31,5 +32,23 @@ describe('makeRefObj', () => {
 });
 
 describe('formatComments', () => {
- 
+ it('returns a new array without mutating the original data', () => {
+   const input = [{
+  body:
+    'The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.',
+  belongs_to: 'Living in the shadow of a great man',
+  created_by: 'butter_bridge',
+  votes: 14,
+  created_at: 1479818163389
+}];
+formatComments(input, {'Living in the shadow of a great man':2}, renameKeys);
+expect(input).to.eql([{
+  body:
+    'The beautiful thing about treasure is that it exists. Got to find out what kind of sheets these are; not cotton, not rayon, silky.',
+  belongs_to: 'Living in the shadow of a great man',
+  created_by: 'butter_bridge',
+  votes: 14,
+  created_at: 1479818163389
+}])
+ });
 });

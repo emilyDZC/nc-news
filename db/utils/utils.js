@@ -24,6 +24,18 @@ exports.renameKeys = (arr, keyToChange, newKey) => {
   return newArr;
 };
 
-exports.formatComments = (comments, articleRef) => {
-
+exports.formatComments = (comments, articleRef, renameKeys) => {
+  // pass in commentData and refObj once created
+  // comment created_by renamed to author
+  // comment belongs_to renamed to article_id
+  // article_id --> swap for one in refObj
+  // created_at --> date object
+  // keep all other properties
+  console.log(comments)
+let newObj = comments.map(obj => {
+  return [...comments]
+})
+console.log(newObj)
+return newObj;
+// check migrations lecture notes bottom of page
 };

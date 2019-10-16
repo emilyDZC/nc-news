@@ -1,6 +1,6 @@
 
 exports.up = function(connection) {
-  console.log('creating usersTable...');
+  // console.log('creating usersTable...');
   return connection.schema.createTable('users', (usersTable) => {
     usersTable.string('username').primary();
     usersTable.string('avatar_url');
@@ -9,5 +9,6 @@ exports.up = function(connection) {
 };
 
 exports.down = function(connection) {
+  // console.log('dropping users table')
   return connection.schema.dropTable('users');
 };
