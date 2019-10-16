@@ -1,12 +1,12 @@
 const { connection } = require("../db/connection");
 
 function fetchUser(username) {
-  console.log(username)
   return connection
     .select("*")
     .from("users")
     .where("username", "=", username)
     .then(result => {
+      // console.log(result)
       return result;
     });
 }
