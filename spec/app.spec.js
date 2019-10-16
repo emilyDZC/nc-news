@@ -107,15 +107,26 @@ describe("endpoints", () => {
             .get("/api/articles/1")
             .expect(200)
             .then(({ body }) => {
+              console.log(body)
               expect(body).to.contain.keys("author", "title", "article_id", "body", "topic", "created_at", "votes");
             });
         });
         it("Status 200: should return an object with the correct keys including comment_count", () => {
           return request(app)
-            .get("/api/articles/3")
+            .get("/api/articles/1")
             .expect(200)
             .then(({ body }) => {
+              console.log(body,'<---')
               expect(body).to.contain.keys("comment_count");
+            });
+        });
+        xit("Status 200: should return an object with the correct keys including correct comment_count", () => {
+          return request(app)
+            .get("/api/articles/1")
+            .expect(200)
+            .then(({ body }) => {
+              console.log(body.comment_count,'<---')
+              expect(body.comment_count).to.equal("13");
             });
         });
         it("Status 404: not found, when given a nonexistent article id", () => {
@@ -134,8 +145,30 @@ describe("endpoints", () => {
               expect(body.msg).to.equal("invalid id");
             });
         });
-        
+        it("Status 405: should only allow GET and PATCH methods", () => {
+        const notAllowed = ["post", "put", "delete"];
+        const promises = notAllowed.map(method => {
+          return request(app)  
+            [method]("/api/articles/1")
+            .expect(405)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("Method not allowed!");
+            });
+        });
+        return Promise.all(promises);
       });
+      
+      });
+  describe('PATCH', () => {
+    describe('/articles/:article_id', () => {
+      it.only('Status 200: should return updated object with patch request', () => {
+        return request(app)
+            .patch("/api/articles/1")
+            .send({inc_votes: 5})
+            .expect(200);
+      });
+    });
+  });
     });
   });
 });

@@ -20,9 +20,22 @@ function fetchArticle(id) {
   .where('articles.article_id', '=', id)
 
   .then(([article]) => {
-    // console.log(article)
+    // console.log(article);
     return article;
   })
 }
 
-module.exports = { fetchArticle }
+function patchArticle(id, obj) {
+  return connection
+  .select('*')
+  .from('articles')
+  .where('article_id', '=', id)
+  .then(([article]) => {
+    article.votes += obj.inc_votes;
+    console.log(article)
+    // increment votes here
+    return article;
+  })
+}
+
+module.exports = { fetchArticle, patchArticle }
