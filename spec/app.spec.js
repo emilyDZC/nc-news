@@ -126,6 +126,15 @@ describe("endpoints", () => {
               expect(body.msg).to.equal("article not found");
             });
         });
+        it('Status 400 for bad request: invalid data type', () => {
+          return request(app)
+            .get("/api/articles/daisy")
+            .expect(400)
+            .then(({ body }) => {
+              expect(body.msg).to.equal("invalid id");
+            });
+        });
+        
       });
     });
   });
