@@ -31,11 +31,11 @@ exports.formatComments = (comments, articleRef, renameKeys) => {
   // article_id --> swap for one in refObj
   // created_at --> date object
   // keep all other properties
-  console.log(comments)
+  // console.log(comments)
 let newObj = comments.map(obj => {
   return [...comments]
 })
-console.log(newObj)
+// console.log(newObj)
 return newObj;
 // check migrations lecture notes bottom of page
 };
