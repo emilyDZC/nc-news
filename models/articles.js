@@ -59,7 +59,7 @@ function fetchArticles({sort_by = 'created_at', order_by = 'desc', author, topic
     })
   .orderBy(sort_by, order_by)
   .then((articles) => {
-    console.log(articles)
+    // console.log(articles)
     return articles
   })
 }

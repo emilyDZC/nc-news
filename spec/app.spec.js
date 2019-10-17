@@ -189,112 +189,141 @@ describe("endpoints", () => {
               });
           });
           xit("Status 404: not found, when request body contains invalid inc_votes key", () => {
-          return request(app)
-            .get("/api/articles/1")
-            .send({ inc_votes: 'cat'})
-            .expect(404)
-            .then(({ body }) => {
-              // console.log(body)
-              expect(body.msg).to.equal("invalid increment value");
-            });
-        });
+            return request(app)
+              .get("/api/articles/1")
+              .send({ inc_votes: "cat" })
+              .expect(404)
+              .then(({ body }) => {
+                // console.log(body)
+                expect(body.msg).to.equal("invalid increment value");
+              });
+          });
         });
       });
-      xdescribe('POST', () => {
-        describe('/articles/:article_id/comments', () => {
+      xdescribe("POST", () => {
+        describe("/articles/:article_id/comments", () => {
           it("Status 200: should return posted comment", () => {
             return request(app)
               .post("/api/articles/1/comments")
-              .send({ username: 'rogersop', body: 'New comment' })
+              .send({ username: "rogersop", body: "New comment" })
               .expect(200)
               .then(({ body }) => {
-                console.log(result.body,'<---')
+                console.log(result.body, "<---");
                 expect(body.comment.body).to.equal("New comment");
               });
           });
-        })
+        });
       });
-      describe('GET', () => {
-        describe('/api/articles', () => {
-          it.only('Status 200: should successfully connect to endpoint', () => {
+      describe("GET", () => {
+        describe("/api/articles", () => {
+          it("Status 200: should successfully connect to endpoint", () => {
             return request(app)
-            .get('/api/articles')
-            .expect(200);
+              .get("/api/articles")
+              .expect(200);
           });
-          it.only('Status 200: should return an articles array of article objects', () => {
+          it("Status 200: should return an articles array of article objects", () => {
             return request(app)
-            .get('/api/articles')
-            .expect(200)
-            .then(({body}) => {
-              expect(body[0]).to.be.an('object');
-            })
+              .get("/api/articles")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[0]).to.be.an("object");
+              });
           });
-          it.only("Status 200: should return an array of objects with the correct keys", () => {
+          it("Status 200: should return an array of objects with the correct keys", () => {
+            return request(app)
+              .get("/api/articles")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[0]).to.contain.keys(
+                  "author",
+                  "title",
+                  "article_id",
+                  "topic",
+                  "created_at",
+                  "votes"
+                );
+              });
+          });
+          it("Status 200: should sort by date DESC by default", () => {
+            return request(app)
+              .get("/api/articles")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).to.be.descendingBy("created_at");
+              });
+          });
+          it("Status 200: should accept a user-provided sort-key", () => {
+            return request(app)
+              .get("/api/articles?sort_by=author")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).to.be.descendingBy("author");
+              });
+          });
+          it("Status 200: should work with other queries", () => {
+            return request(app)
+              .get("/api/articles?sort_by=article_id")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).to.be.descendingBy("article_id");
+              });
+          });
+          it("Status 200: should allow user to select order asc/desc", () => {
+            return request(app)
+              .get("/api/articles?order_by=asc")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).to.be.sortedBy("created_at", { ascending: true });
+              });
+          });
+          it("Status 200: should allow user to filter by author", () => {
+            return request(app)
+              .get("/api/articles?author=butter_bridge")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[1].author).to.equal("butter_bridge");
+              });
+          });
+          it("Status 200: should allow user to filter by topic", () => {
+            return request(app)
+              .get("/api/articles?topic=cats")
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[0].topic).to.equal("cats");
+              });
+          });
+          it("Status 200: should allow user to filter and then sort by chosen key", () => {
+            return request(app)
+              .get(
+                "/api/articles?topic=mitch&&sort_by=article_id&&order_by=asc"
+              )
+              .expect(200)
+              .then(({ body }) => {
+                expect(body[0].topic).to.equal("mitch");
+                expect(body).to.be.ascendingBy("article_id");
+              });
+          });
+        });
+        describe.only("Error handling", () => {
+          describe("/api/articles", () => {
+            it("Status 404: not found, when given an invalid path", () => {
+              return request(app)
+                .get("/api/arcles")
+                .expect(404)
+                .then(({ body }) => {
+                  expect(body.msg).to.equal("Route not found");
+                });
+            });
+             it.only("Status 400 for bad request: invalid sort key", () => {
           return request(app)
-            .get("/api/articles")
-            .expect(200)
+            .get("/api/articles/?sort_by=57")
+            .expect(400)
             .then(({ body }) => {
-              expect(body[0]).to.contain.keys("author", "title", "article_id", "topic", "created_at", "votes");
+              expect(body.msg).to.equal("invalid sort method selected");
             });
         });
-        it.only("Status 200: should sort by date DESC by default", () => {
-          return request(app)
-            .get("/api/articles")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body).to.be.descendingBy("created_at");
-            });
+          });
         });
-        it.only("Status 200: should accept a user-provided sort-key", () => {
-          return request(app)
-            .get("/api/articles?sort_by=author")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body).to.be.descendingBy("author");
-            });
-        });
-        it.only("Status 200: should work with other queries", () => {
-          return request(app)
-            .get("/api/articles?sort_by=article_id")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body).to.be.descendingBy("article_id");
-            });
-        });
-        it.only("Status 200: should allow user to select order asc/desc", () => {
-          return request(app)
-            .get("/api/articles?order_by=asc")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body).to.be.sortedBy("created_at", {ascending: true});
-            });
-        });
-        it.only("Status 200: should allow user to filter by author", () => {
-          return request(app)
-            .get("/api/articles?author=butter_bridge")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body[1].author).to.equal("butter_bridge");
-            });
-        });
-        it.only("Status 200: should allow user to filter by topic", () => {
-          return request(app)
-            .get("/api/articles?topic=cats")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body[0].topic).to.equal("cats");
-            });
-        });
-        it.only("Status 200: should allow user to filter and then sort by chosen key", () => {
-          return request(app)
-            .get("/api/articles?topic=mitch&&sort_by=article_id&&order_by=asc")
-            .expect(200)
-            .then(({ body }) => {
-              expect(body[0].topic).to.equal("mitch");
-              expect(body).to.be.ascendingBy('article_id')
-            });
-        });
-        })
       });
     });
   });

@@ -30,6 +30,8 @@ function sendAllArticles(req, res, next) {
   console.log(req.query, '<--- query')
   fetchArticles(req.query)
     .then(result => {
+      if (!result) next(result);
+      console.log(result)
       res.status(200).send(result)
     })
     .catch(next);

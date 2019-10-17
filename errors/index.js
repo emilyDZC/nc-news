@@ -7,6 +7,7 @@ exports.handleCustomErrors = (err, req, res, next) => {
 exports.handle500s = (err, req, res, next) => {
   console.log(err)
   if (err.code === '22P02') res.status(400).send({msg: 'invalid id'});
+  if (err.code === '42703') res.status(400).send({msg: 'invalid sort method selected'});
   else {
 res.status(500).send({msg: 'server error'});
   }
