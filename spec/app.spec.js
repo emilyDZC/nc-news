@@ -360,7 +360,7 @@ describe("endpoints", () => {
             it.only('Status 200: should return an object', () => {
               return request(app)
               .patch("/api/comments/1")
-              .send({ inc_votes: -5 })
+              .send({ inc_votes: 5 })
               .expect(200)
               .then(({ body }) => {
                 expect(body).to.be.an('object')
@@ -369,7 +369,7 @@ describe("endpoints", () => {
             it.only('Status 200: should return a comment object with the correct keys', () => {
               return request(app)
               .patch("/api/comments/1")
-              .send({ inc_votes: -5 })
+              .send({ inc_votes: 5 })
               .expect(200)
               .then(({ body }) => {
                 expect(body).to.contain.keys('article_id', 'author', 'body', 'comment_id', 'created_at', 'votes')
@@ -382,6 +382,15 @@ describe("endpoints", () => {
               .expect(200)
               .then(({ body }) => {
                 expect(body.votes).to.equal(21)
+              });
+            });
+            it.only('Status 200: should also work with negative numbers to decrease votes', () => {
+              return request(app)
+              .patch("/api/comments/1")
+              .send({ inc_votes: -5 })
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.votes).to.equal(11)
               });
             });
           });
