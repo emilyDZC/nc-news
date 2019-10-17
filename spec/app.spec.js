@@ -366,6 +366,16 @@ describe("endpoints", () => {
                 expect(body).to.be.an('object')
               });
             });
+            it.only('Status 200: should return a comment object with the correct keys', () => {
+              return request(app)
+              .patch("/api/comments/1")
+              .send({ inc_votes: -5 })
+              .expect(200)
+              .then(({ body }) => {
+                console.log(body)
+                expect(body).to.contain.keys('article_id', 'author', 'body', 'comment_id', 'created_at', 'votes')
+              });
+            });
           });
         });
       });
