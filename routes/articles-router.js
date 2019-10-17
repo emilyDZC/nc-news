@@ -10,7 +10,7 @@ articlesRouter.get('/', sendAllArticles)
 articlesRouter.route('/:article_id')
 .get(getArticleById)
 .patch(patchArticleById)
-.post(postComment)
+// .post(postComment)
 .all(notAllowed);
 
 module.exports = articlesRouter

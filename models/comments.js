@@ -1,6 +1,20 @@
 const { connection } = require("../db/connection");
 
+function updateComment(id, obj) {
+  return connection
+  .select('*')
+  .from('comments')
+  .where('comment_id', '=', id)
+  .then(([comment]) => {
+    comment.votes += obj.inc_votes;
+    // console.log(comment)
+    // increment votes here
+    return comment;
+  })
+}
 
+
+/*
 function postComment(id, obj) {
   return connection
   .select('*')
@@ -11,6 +25,6 @@ function postComment(id, obj) {
     // console.log(article)
     return article.comment;
   })
-}
+}*/
 
-  module.exports = { postComment }
+  module.exports = { updateComment }

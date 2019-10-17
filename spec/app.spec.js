@@ -208,7 +208,6 @@ describe("endpoints", () => {
               .send({ username: "rogersop", body: "New comment" })
               .expect(200)
               .then(({ body }) => {
-                console.log(result.body, "<---");
                 expect(body.comment.body).to.equal("New comment");
               });
           });
@@ -351,6 +350,21 @@ describe("endpoints", () => {
                   });
               });
               return Promise.all(promises);
+            });
+          });
+        });
+      });
+      describe('PATCH', () => {
+        describe('/api/comments', () => {
+          describe('/:comment_id', () => {
+            it.only('Status 200: should return an object', () => {
+              return request(app)
+              .patch("/api/comments/1")
+              .send({ inc_votes: -5 })
+              .expect(200)
+              .then(({ body }) => {
+                expect(body).to.be.an('object')
+              });
             });
           });
         });
