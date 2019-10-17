@@ -372,8 +372,16 @@ describe("endpoints", () => {
               .send({ inc_votes: -5 })
               .expect(200)
               .then(({ body }) => {
-                console.log(body)
                 expect(body).to.contain.keys('article_id', 'author', 'body', 'comment_id', 'created_at', 'votes')
+              });
+            });
+            it.only('Status 200: should return a comment object with the vote count increased by a given value', () => {
+              return request(app)
+              .patch("/api/comments/1")
+              .send({ inc_votes: 5 })
+              .expect(200)
+              .then(({ body }) => {
+                expect(body.votes).to.equal(21)
               });
             });
           });

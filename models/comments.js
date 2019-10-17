@@ -7,7 +7,6 @@ function updateComment(id, obj) {
   .where('comment_id', '=', id)
   .then(([comment]) => {
     comment.votes += obj.inc_votes;
-    // console.log(comment)
     // increment votes here
     return comment;
   })
