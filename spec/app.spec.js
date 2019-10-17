@@ -357,7 +357,7 @@ describe("endpoints", () => {
       describe('PATCH', () => {
         describe('/api/comments', () => {
           describe('/:comment_id', () => {
-            it.only('Status 200: should return an object', () => {
+            it('Status 200: should return an object', () => {
               return request(app)
               .patch("/api/comments/1")
               .send({ inc_votes: 5 })
@@ -366,7 +366,7 @@ describe("endpoints", () => {
                 expect(body).to.be.an('object')
               });
             });
-            it.only('Status 200: should return a comment object with the correct keys', () => {
+            it('Status 200: should return a comment object with the correct keys', () => {
               return request(app)
               .patch("/api/comments/1")
               .send({ inc_votes: 5 })
@@ -375,7 +375,7 @@ describe("endpoints", () => {
                 expect(body).to.contain.keys('article_id', 'author', 'body', 'comment_id', 'created_at', 'votes')
               });
             });
-            it.only('Status 200: should return a comment object with the vote count increased by a given value', () => {
+            it('Status 200: should return a comment object with the vote count increased by a given value', () => {
               return request(app)
               .patch("/api/comments/1")
               .send({ inc_votes: 5 })
@@ -384,7 +384,7 @@ describe("endpoints", () => {
                 expect(body.votes).to.equal(21)
               });
             });
-            it.only('Status 200: should also work with negative numbers to decrease votes', () => {
+            it('Status 200: should also work with negative numbers to decrease votes', () => {
               return request(app)
               .patch("/api/comments/1")
               .send({ inc_votes: -5 })
@@ -393,6 +393,15 @@ describe("endpoints", () => {
                 expect(body.votes).to.equal(11)
               });
             });
+          });
+        });
+      });
+      describe.only('DELETE', () => {
+        describe('/api/comments/:comment_id', () => {
+          it('Status 204: successfully deleted, for deleting comment by given id', () => {
+            return request(app)
+            .delete('/api/comments/1')
+            .expect(204);
           });
         });
       });

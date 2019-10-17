@@ -12,6 +12,12 @@ function updateComment(id, obj) {
   })
 }
 
+function removeComment(id) {
+  return connection
+  .delete('*')
+  .from('comments')
+  .where('comment_id', '=', id);
+}
 
 /*
 function postComment(id, obj) {
@@ -26,4 +32,4 @@ function postComment(id, obj) {
   })
 }*/
 
-  module.exports = { updateComment }
+  module.exports = { updateComment, removeComment }
