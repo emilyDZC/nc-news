@@ -19,17 +19,17 @@ function removeComment(id) {
   .where('comment_id', '=', id);
 }
 
-/*
-function postComment(id, obj) {
+function addComment(id, obj) {
+  console.log(id, obj)
   return connection
   .select('*')
   .from('comments')
   .where('article_id', '=', id)
-  .update({comment: obj.body})
+  .insert({comment: obj.body})
   .then(([article]) => {
     // console.log(article)
     return article.comment;
   })
-}*/
+}
 
-  module.exports = { updateComment, removeComment }
+  module.exports = { addComment, updateComment, removeComment }

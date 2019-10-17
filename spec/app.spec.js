@@ -204,11 +204,11 @@ describe("endpoints", () => {
         describe("/articles/:article_id/comments", () => {
           it("Status 200: should return posted comment", () => {
             return request(app)
-              .post("/api/articles/1/comments")
-              .send({ username: "rogersop", body: "New comment" })
-              .expect(200)
+              .post("/api/articles/1/")
+              .send({ username: "rogersop", body: "New comment inserted" })
+              .expect(201)
               .then(({ body }) => {
-                expect(body.comment.body).to.equal("New comment");
+                expect(body.comment.body).to.equal("New comment inserted");
               });
           });
         });
@@ -396,7 +396,7 @@ describe("endpoints", () => {
           });
         });
       });
-      describe.only('DELETE', () => {
+      describe('DELETE', () => {
         describe('/api/comments/:comment_id', () => {
           it('Status 204: successfully deleted, for deleting comment by given id', () => {
             return request(app)

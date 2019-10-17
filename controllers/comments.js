@@ -1,4 +1,4 @@
-const { updateComment, removeComment } = require("../models/comments");
+const { updateComment, removeComment, addComment } = require("../models/comments");
 
 function patchCommentById(req, res, next) {
   const { comment_id } = req.params;
@@ -14,15 +14,16 @@ function deleteCommentById(req, res, next) {
   })
 }
 
-/*
+
 function postComment(req, res, next) {
   const { article_id } = req.params;
   const { body } = req.body;
-  postComment(article_id, body)
+  console.log(article_id, body)
+  addComment(article_id, body)
   .then(result => {
-    res.status(200).send(result);
+    res.status(201).send(result);
   })
   .catch(next);
-}*/
+}
 
-module.exports = { patchCommentById, deleteCommentById }
+module.exports = { postComment, patchCommentById, deleteCommentById }
