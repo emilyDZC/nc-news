@@ -153,8 +153,8 @@ describe("endpoints", () => {
               expect(body.msg).to.equal("invalid id");
             });
         });
-        it("Status 405: should only allow GET and PATCH methods", () => {
-          const notAllowed = ["post", "put", "delete"];
+        it("Status 405: should only allow GET, POST and PATCH methods", () => {
+          const notAllowed = ["put", "delete"];
           const promises = notAllowed.map(method => {
             return request(app)
               [method]("/api/articles/1")
@@ -304,7 +304,7 @@ describe("endpoints", () => {
               });
           });
         });
-        describe.only("Error handling", () => {
+        describe("Error handling", () => {
           describe("/api/articles", () => {
             it("Status 404: not found, when given an invalid path", () => {
               return request(app)
@@ -314,14 +314,44 @@ describe("endpoints", () => {
                   expect(body.msg).to.equal("Route not found");
                 });
             });
-             it.only("Status 400 for bad request: invalid sort key", () => {
-          return request(app)
-            .get("/api/articles/?sort_by=57")
-            .expect(400)
-            .then(({ body }) => {
-              expect(body.msg).to.equal("invalid sort method selected");
+            it("Status 400 for bad request: invalid sort key", () => {
+              return request(app)
+                .get("/api/articles/?sort_by=57")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).to.equal("invalid sort method selected");
+                });
             });
-        });
+            xit("Status 200: should default to descending when given invalid order criteria", () => {
+              return request(app)
+                .get("/api/articles/?order_by=57")
+                .expect(200)
+                .then(({ body }) => {
+                  // console.log(body)
+                  expect(body).to.be.ascendingBy("created_at");
+                });
+            });
+            // this returns a 200. Not sure how to make sure it throws an error
+            xit("Status 400 for bad request: author does not exist", () => {
+              return request(app)
+                .get("/api/articles/?author=daisy")
+                .expect(400)
+                .then(({ body }) => {
+                  expect(body.msg).to.equal("author not found");
+                });
+            });
+            xit("Status 405: should only allow GET methods", () => {
+              const notAllowed = ["put", "patch", "post", "delete"];
+              const promises = notAllowed.map(method => {
+                return request(app)
+                  [method]("/api/articles")
+                  .expect(405)
+                  .then(({ body }) => {
+                    expect(body.msg).to.equal("Method not allowed!");
+                  });
+              });
+              return Promise.all(promises);
+            });
           });
         });
       });

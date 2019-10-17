@@ -38,18 +38,7 @@ function patchArticle(id, obj) {
   })
 }
 
-function fetchArticles({sort_by = 'created_at', order_by = 'desc', author, topic}) {
- /* if (author) {
-    return connection
-    .select('*')
-    .from('articles')
-    .where('author', '=', author)
-    .then((articles) => {
-    console.log(articles)
-    return articles
-  })
-  }*/
-  
+function fetchArticles({sort_by = 'created_at', order_by = 'desc', author, topic}) { 
   return connection
   .select('*')
   .from('articles')
