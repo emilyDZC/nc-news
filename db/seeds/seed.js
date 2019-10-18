@@ -46,7 +46,6 @@ exports.seed = function(connection) {
         })
         .then(articleRows => {
           const refObj = makeRefObj(articleRows);
-
           const formattedComments = renameKeys(
             commentData,
             "created_by",
