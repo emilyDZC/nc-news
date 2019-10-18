@@ -1,4 +1,4 @@
-const { connection } = require("../db/connection");
+const connection = require("../db/connection");
 
 function updateComment(id, obj) {
   return connection
@@ -20,7 +20,6 @@ function removeComment(id) {
 }
 
 function addComment(id, obj) {
-  console.log(id, obj)
   return connection
   .select('*')
   .from('comments')
@@ -32,4 +31,14 @@ function addComment(id, obj) {
   })
 }
 
-  module.exports = { addComment, updateComment, removeComment }
+function fetchAllComments() {
+  return connection
+  .select('*')
+  .from('comments')
+  .then(comments => {
+    return comments;
+  })
+
+}
+
+  module.exports = { addComment, updateComment, removeComment, fetchAllComments }
