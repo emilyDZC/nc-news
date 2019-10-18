@@ -31,8 +31,10 @@ function patchArticle(id, obj) {
   .from('articles')
   .where('article_id', '=', id)
   .then(([article]) => {
-    article.votes += obj.inc_votes;
-    // console.log(article)
+    if (typeof obj.inc_votes !== 'number') return Promise.reject({ code: '22P02'})
+    else {
+      article.votes += obj.inc_votes;
+    }
     // increment votes here
     return article;
   })

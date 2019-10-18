@@ -3,11 +3,11 @@ const { fetchArticle, patchArticle, fetchArticles } = require("../models/article
 function getArticleById(req, res, next) {
   const { article_id } = req.params;
   fetchArticle(article_id)
-    .then(result => {
-      if (!result) {
+    .then(article => {
+      if (!article) {
         next({ msg: "article not found", status: 404 });
       } else {
-        res.status(200).send(result);
+        res.status(200).send({article});
       }
     })
     .catch(next);
@@ -16,11 +16,12 @@ function getArticleById(req, res, next) {
 function patchArticleById(req, res, next) {
   const { article_id } = req.params;
   patchArticle(article_id, req.body)
-    .then(result => {
-      if (!result) {
+    .then(article => {
+      // if (article.msg === 'invalid data type') next({msg: 'invalid request', status:404});
+      if (!article || article.msg === 'invalid data type') {
         next({ msg: "article not found", status: 404 });
       } else {
-        res.status(200).send(result);
+        res.status(200).send({article});
       }
     })
     .catch(next);
@@ -29,9 +30,10 @@ function patchArticleById(req, res, next) {
 function sendAllArticles(req, res, next) {
   // console.log(req.query, '<--- query')
   fetchArticles(req.query)
-    .then(result => {
-      if (!result) next(result);
-      res.status(200).send(result)
+    .then(articles => {
+      // console.log(articles[0])
+      if (!articles) next(articles);
+      res.status(200).send({articles})
     })
     .catch(next);
 }

@@ -2,7 +2,7 @@
 exports.up = function(connection) {
   // console.log('creating articles table...');
   return connection.schema.createTable('articles', (articlesTable) => {
-    articlesTable.increments('article_id').primary();
+    articlesTable.increments('article_id').primary().defaultTo(0);
     articlesTable.string('title');
     articlesTable.text('body');
     articlesTable.integer('votes').defaultTo(0);

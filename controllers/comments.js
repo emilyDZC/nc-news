@@ -1,9 +1,10 @@
-const { updateComment, removeComment, addComment } = require("../models/comments");
+const { updateComment, removeComment, addComment, getComment } = require("../models/comments");
 
 function patchCommentById(req, res, next) {
   const { comment_id } = req.params;
-  updateComment(comment_id, req.body).then((result) => {
-    res.status(200).send(result)
+  updateComment(comment_id, req.body).then(comment => {
+    console.log({comment})
+    res.status(200).send({comment})
   })
 }
 
@@ -20,10 +21,16 @@ function postComment(req, res, next) {
   const { body } = req.body;
   console.log(article_id, body)
   addComment(article_id, body)
-  .then(result => {
-    res.status(201).send(result);
+  .then(comment => {
+    res.status(201).send({comment});
   })
   .catch(next);
 }
 
-module.exports = { postComment, patchCommentById, deleteCommentById }
+function getCommentById(req, res, next) {
+  fetchAllComments().then(comments => {
+    res.status(200).send({comments});
+  })
+}
+
+module.exports = { postComment, patchCommentById, deleteCommentById, getCommentById }
