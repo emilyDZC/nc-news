@@ -1,4 +1,4 @@
-const { connection } = require("../db/connection");
+const connection = require("../db/connection");
 /*
 function fetchArticle(id) {
   return connection
